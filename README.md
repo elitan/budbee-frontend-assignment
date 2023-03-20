@@ -1,3 +1,23 @@
+# Furry Friends
+
+## Get Started
+
+Start the database:
+
+```
+docker-compose up -d
+```
+
+Apply database migrations
+
+```
+cd db && ./apply.sh && cd ../
+```
+
+Star the [web](web/README.md) app.
+
+---
+
 # Frontend Code Assignment
 
 This is a code assignment for frontend candidates. The purpose is to give us a better understanding of your skills as a developer.
@@ -8,7 +28,8 @@ In the technical interview, you will have a chance to present the result and dis
 
 Your friend Dave is hoarding cats and he has asked you to help organize his growing furry family of cats.
 
-As a user, one should be able to 
+As a user, one should be able to
+
 - add cats to the collection,
 - view the list of cats and their individual details (e.g. name, date of birth...)
 - as well as edit the details,
@@ -26,6 +47,7 @@ _Example wireframe for what a web app could look like. Not a strict requirement.
 ## Assessment
 
 The result will be assessed based on:
+
 - Functionality
 - Usability
 - Code readability
@@ -33,10 +55,11 @@ The result will be assessed based on:
 - Your thoughts on possible improvements
 
 ## FAQ
-Q: Which frameworks should I use? 
+
+Q: Which frameworks should I use?
 A: Use anything you feel comfortble with, but consider how to best show us your skills relevant for the position you have applied to.
 
-Q: How much time to I have? 
+Q: How much time to I have?
 A: Spend a reasonable amount of time (to you). If you have ideas that you don't have time to implement, feel free to add comments and bring them up in the technical interview.
 
 Q: Do I have to build the backend?
