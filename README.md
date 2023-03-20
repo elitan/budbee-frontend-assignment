@@ -2,19 +2,25 @@
 
 ## Get Started
 
-Start the database:
+### 1. Start the database:
 
 ```
 docker-compose up -d
 ```
 
-Apply database migrations
+### 2. Apply database migrations
 
 ```
 cd db && ./apply.sh && cd ../
 ```
 
-Star the [web](web/README.md) app.
+### 3. Start the [web](web/README.md) app.
+
+```
+pnpm install
+pnpm codegen
+pnpm dev
+```
 
 ---
 
