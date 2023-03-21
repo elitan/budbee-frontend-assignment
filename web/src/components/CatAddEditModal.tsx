@@ -100,7 +100,7 @@ export function CatAddEditModal({ isOpen, setIsOpen, operation, cat }: IProps) {
       return;
     } else if (operation === "edit") {
       if (!cat) {
-        throw new Error("Unable to edit cat");
+        throw new Error("Unable to edit cat because the cat object is missing");
       }
 
       catEditMutation.mutate({
