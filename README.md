@@ -2,7 +2,8 @@
 
 ## Possible improvements
 
-- asd
+- How to remove a cat image for a cat?
+- todo
 
 ## Get Started
 

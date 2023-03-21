@@ -1,8 +1,8 @@
-import { test, expect } from "@playwright/test";
+import { test } from "@playwright/test";
 import { sql } from "kysely";
 import { db } from "../src/utils/db";
 
-test.beforeEach(async ({ page }, testInfo) => {
+test.beforeEach(async () => {
   // Clear the database before each test.
   await sql`TRUNCATE "public"."cats" RESTART IDENTITY CASCADE;`.execute(db);
 });
