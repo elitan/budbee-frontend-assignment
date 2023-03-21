@@ -53,7 +53,7 @@ export const catsRouter = createTRPCRouter({
         birthdate: z.string(), // date string
         gender: z.enum(["F", "M"]),
         bio: z.string(),
-        imgUrl: z.string().nullable(),
+        imgUrl: z.string(),
       })
     )
     .mutation(async ({ input }) => {

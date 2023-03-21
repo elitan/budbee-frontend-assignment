@@ -1,7 +1,5 @@
-export function getBase64FromFile(
-  file: File | undefined
-): Promise<string | null> {
-  if (!file) return Promise.resolve(null);
+export function getBase64FromFile(file: File | undefined): Promise<string> {
+  if (!file) return Promise.resolve("");
 
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
