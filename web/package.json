@@ -8,6 +8,7 @@
     "lint": "next lint",
     "start": "next start",
     "test": "vitest",
+    "playwright": "playwright test --project=chromium",
     "codegen": "kysely-codegen --camel-case"
   },
   "dependencies": {
@@ -32,6 +33,7 @@
     "zod": "^3.20.6"
   },
   "devDependencies": {
+    "@playwright/test": "^1.31.2",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@types/eslint": "^8.21.1",
@@ -43,6 +45,7 @@
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
     "autoprefixer": "^10.4.7",
+    "dotenv": "^16.0.3",
     "eslint": "^8.34.0",
     "eslint-config-next": "^13.2.1",
     "jsdom": "^21.1.1",

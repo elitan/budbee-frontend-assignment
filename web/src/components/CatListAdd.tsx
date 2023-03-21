@@ -15,6 +15,7 @@ export function CatListAdd() {
         />
       )}
       <button
+        data-testid="add-cat-button"
         className="flex flex-col items-center justify-center bg-gray-100 p-24"
         onClick={() => {
           setModalIsOpen(true);
