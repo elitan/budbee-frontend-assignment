@@ -4,7 +4,7 @@ const config = {
   theme: {
     extend: {},
   },
-  plugins: [require("@tailwindcss/line-clamp")],
+  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/line-clamp")],
 };
 
 module.exports = config;

@@ -7,11 +7,13 @@ export function CatListAdd() {
 
   return (
     <>
-      <CatAddModal
-        isOpen={modalIsOpen}
-        setIsOpen={setModalIsOpen}
-        operation="add"
-      />
+      {modalIsOpen && (
+        <CatAddModal
+          isOpen={modalIsOpen}
+          setIsOpen={setModalIsOpen}
+          operation="add"
+        />
+      )}
       <button
         className="flex flex-col items-center justify-center"
         onClick={() => {

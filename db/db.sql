@@ -5,9 +5,9 @@ CREATE TABLE cats (
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
   name TEXT NOT NULL,
-  img_url TEXT NOT NULL DEFAULT '',
+  img_url TEXT,
   bio TEXT NOT NULL DEFAULT '',
-  birth_date DATE NOT NULL,
+  birthdate DATE NOT NULL,
   gender gender NOT NULL
 )
 

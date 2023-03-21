@@ -6,7 +6,7 @@ export const catsRouter = createTRPCRouter({
   getAll: publicProcedure.query(async () => {
     const cats = await db
       .selectFrom("cats")
-      .select(["id", "name", "bio", "imgUrl", "birthDate", "gender"])
+      .select(["id", "name", "bio", "imgUrl", "birthdate", "gender"])
       .where("isDeleted", "=", false)
       .execute();
 
@@ -19,20 +19,49 @@ export const catsRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string(),
-        birthDate: z.date(),
+        birthdate: z.date(),
         gender: z.enum(["F", "M"]),
         bio: z.string().default(""),
         imgUrl: z.string().default(""),
       })
     )
     .query(async ({ input }) => {
-      const { name, birthDate, gender, bio, imgUrl } = input;
+      const { name, birthdate, gender, bio, imgUrl } = input;
 
       await db
         .insertInto("cats")
         .values({
           name,
-          birthDate,
+          birthdate,
+          gender,
+          bio,
+          imgUrl,
+        })
+        .execute();
+
+      return {
+        ok: true,
+      };
+    }),
+
+  add: publicProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        birthdate: z.string(), // date string
+        gender: z.enum(["F", "M"]),
+        bio: z.string(),
+        imgUrl: z.string().nullable(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const { name, birthdate, gender, bio, imgUrl } = input;
+
+      await db
+        .insertInto("cats")
+        .values({
+          name,
+          birthdate,
           gender,
           bio,
           imgUrl,

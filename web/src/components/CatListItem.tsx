@@ -47,7 +47,9 @@ export function CatListItem({ cat }: { cat: Cat }) {
         <div className="col-span-2">img...</div>
         <div className="col-span-3">
           <div className="mb-3 font-bold">{cat.name}</div>
-          <div className="line-clamp line-clamp-5">{cat.bio}</div>
+          <div className="line-clamp whitespace-pre-line line-clamp-5">
+            {cat.bio}
+          </div>
         </div>
       </div>
     </div>
