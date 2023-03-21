@@ -73,6 +73,37 @@ export const catsRouter = createTRPCRouter({
       };
     }),
 
+  edit: publicProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        name: z.string(),
+        birthdate: z.string(), // date string
+        gender: z.enum(["F", "M"]),
+        bio: z.string(),
+        imgUrl: z.string().nullable(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const { id, name, birthdate, gender, bio, imgUrl } = input;
+
+      await db
+        .updateTable("cats")
+        .set({
+          name,
+          birthdate,
+          gender,
+          bio,
+          imgUrl,
+        })
+        .where("id", "=", id)
+        .execute();
+
+      return {
+        ok: true,
+      };
+    }),
+
   delete: publicProcedure
     .input(
       z.object({

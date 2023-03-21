@@ -6,4 +6,5 @@ export interface Cat {
   birthdate: Date;
   gender: Gender;
   bio: string;
+  imgUrl: string;
 }

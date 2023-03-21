@@ -1,6 +1,6 @@
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
-import { CatAddModal } from "./CatAddModal";
+import { CatAddEditModal } from "./CatAddEditModal";
 
 export function CatListAdd() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -8,14 +8,14 @@ export function CatListAdd() {
   return (
     <>
       {modalIsOpen && (
-        <CatAddModal
+        <CatAddEditModal
           isOpen={modalIsOpen}
           setIsOpen={setModalIsOpen}
           operation="add"
         />
       )}
       <button
-        className="flex flex-col items-center justify-center"
+        className="flex flex-col items-center justify-center bg-gray-100 p-24"
         onClick={() => {
           setModalIsOpen(true);
         }}

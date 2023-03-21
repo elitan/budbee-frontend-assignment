@@ -6,19 +6,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { api } from "~/utils/api";
 
-import { type Gender } from "~/utils/types";
-import { handleImageUpload } from "~/utils/utils";
+import { type Cat, type Gender } from "~/utils/types";
+import { getBase64FromFile } from "~/utils/utils";
 
 interface IFormValues {
   name: string;
   birthdate: string;
   gender: Gender;
   bio: string;
-  image: File | null;
+  images: File[] | null;
 }
 
 // mutation data type based on the form values
-interface IMutationFormValues extends Omit<IFormValues, "image"> {
+interface IMutationFormValues extends Omit<IFormValues, "images"> {
   imgUrl: string | null;
 }
 
@@ -32,17 +32,27 @@ interface IProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   operation: "add" | "edit";
+  cat?: Cat;
 }
 
-export function CatAddModal({ isOpen, setIsOpen, operation }: IProps) {
+export function CatAddEditModal({ isOpen, setIsOpen, operation, cat }: IProps) {
   const utils = api.useContext();
 
-  const addMutation = api.cats.add.useMutation({
+  const catAddMutation = api.cats.add.useMutation({
     onSuccess: async () => {
       await utils.cats.getAll.invalidate();
       setIsOpen(false);
     },
   });
+
+  const catEditMutation = api.cats.edit.useMutation({
+    onSuccess: async () => {
+      await utils.cats.getAll.invalidate();
+      setIsOpen(false);
+    },
+  });
+
+  const isSubmitting = catAddMutation.isLoading || catEditMutation.isLoading;
 
   const {
     register,
@@ -51,11 +61,11 @@ export function CatAddModal({ isOpen, setIsOpen, operation }: IProps) {
   } = useForm<IFormValues>({
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      name: "",
-      birthdate: "",
-      gender: "F",
-      bio: "",
-      image: null,
+      name: cat?.name || "",
+      birthdate: cat?.birthdate.toISOString().substring(0, 10) || "",
+      gender: cat?.gender || "F",
+      bio: cat?.bio || "",
+      images: null,
     },
   });
 
@@ -69,43 +79,44 @@ export function CatAddModal({ isOpen, setIsOpen, operation }: IProps) {
       return;
     }
     setIsOpen(false);
+    return false;
   };
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
+    // don't submit if already submitting
+    if (isSubmitting) {
+      return;
+    }
+
     // get variables from data
-    const { image, ...rest } = data;
+    const { images, ...rest } = data;
 
     // handle image upload
-    const imgUrl = handleImageUpload(image);
+    const imgUrl =
+      images?.length === 1 ? await getBase64FromFile(images[0]) : "";
 
-    // create a new variables to be used for add and edit mutations
-    // this variable does not contain the `image` field, but instead
-    // uses the `imgUrl` field which is the url of the uploaded image.
-    const mutationData = {
-      ...rest,
-      imgUrl,
-    };
-
+    // call the appropriate mutation based on the operation
     if (operation === "add") {
-      addCat(mutationData);
+      catAddMutation.mutate({
+        imgUrl,
+        ...rest,
+      });
       return;
     } else if (operation === "edit") {
+      if (!cat) {
+        throw new Error("Unable to edit cat");
+      }
+
+      catEditMutation.mutate({
+        id: cat.id,
+        imgUrl: imgUrl || cat.imgUrl,
+        ...rest,
+      });
       return;
     }
 
     throw new Error("Invalid operation");
   });
-
-  const addCat = (data: IMutationFormValues) => {
-    addMutation.mutate(data, {
-      onSuccess: () => {
-        setIsOpen(false);
-      },
-    });
-    setIsOpen(false);
-  };
-
-  const isSubmitting = addMutation.isLoading;
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -251,19 +262,22 @@ export function CatAddModal({ isOpen, setIsOpen, operation }: IProps) {
                         <input
                           id="image"
                           type="file"
-                          {...register("image")}
+                          accept="image/*"
+                          multiple={false}
+                          {...register("images")}
                           className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
-                          aria-invalid={errors.image ? "true" : "false"}
+                          aria-invalid={errors.images ? "true" : "false"}
                         />
                       </div>
-                      {errors.image && (
+                      {errors.images && (
                         <p className="mt-2 text-sm text-red-600">
-                          {errors.image.message?.toString()}
+                          {errors.images.message?.toString()}
                         </p>
                       )}
                     </div>
                     <div className="flex justify-end gap-x-4">
                       <button
+                        type="button"
                         className="py-1 px-4 capitalize"
                         onClick={handleClose}
                         disabled={isSubmitting}
