@@ -1,5 +1,9 @@
 # Furry Friends
 
+## Possible improvements
+
+- asd
+
 ## Get Started
 
 ### 1. Start the database:
