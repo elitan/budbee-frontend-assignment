@@ -21,6 +21,7 @@ const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   birthdate: Yup.string().required("Birthdate is required"),
   gender: Yup.mixed().oneOf(["F", "M"]),
+  bio: Yup.string().required("Bio is required"),
 });
 
 interface IProps {
