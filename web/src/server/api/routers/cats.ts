@@ -8,41 +8,13 @@ export const catsRouter = createTRPCRouter({
       .selectFrom("cats")
       .select(["id", "name", "bio", "imgUrl", "birthdate", "gender"])
       .where("isDeleted", "=", false)
+      .orderBy("name", "asc")
       .execute();
 
     return {
       cats,
     };
   }),
-
-  hello: publicProcedure
-    .input(
-      z.object({
-        name: z.string(),
-        birthdate: z.date(),
-        gender: z.enum(["F", "M"]),
-        bio: z.string().default(""),
-        imgUrl: z.string().default(""),
-      })
-    )
-    .query(async ({ input }) => {
-      const { name, birthdate, gender, bio, imgUrl } = input;
-
-      await db
-        .insertInto("cats")
-        .values({
-          name,
-          birthdate,
-          gender,
-          bio,
-          imgUrl,
-        })
-        .execute();
-
-      return {
-        ok: true,
-      };
-    }),
 
   add: publicProcedure
     .input(
@@ -51,7 +23,7 @@ export const catsRouter = createTRPCRouter({
         birthdate: z.string(), // date string
         gender: z.enum(["F", "M"]),
         bio: z.string(),
-        imgUrl: z.string().nullable(),
+        imgUrl: z.string(),
       })
     )
     .mutation(async ({ input }) => {
@@ -113,6 +85,7 @@ export const catsRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       const { id } = input;
 
+      // alternatively, we could set isDeleted to true
       await db.deleteFrom("cats").where("id", "=", id).execute();
 
       return {

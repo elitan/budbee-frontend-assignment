@@ -17,11 +17,6 @@ interface IFormValues {
   images: File[] | null;
 }
 
-// mutation data type based on the form values
-interface IMutationFormValues extends Omit<IFormValues, "images"> {
-  imgUrl: string | null;
-}
-
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   birthdate: Yup.string().required("Birthdate is required"),
