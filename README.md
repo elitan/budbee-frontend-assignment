@@ -1,10 +1,5 @@
 # Furry Friends
 
-## Possible improvements
-
-- How to remove a cat image for a cat?
-- todo
-
 ## Get Started
 
 ### 1. Start the database:
